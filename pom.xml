@@ -1,0 +1,99 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>DairyBen</groupId>
+  <artifactId>DairyBen</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+		
+		<dependency>
+	        <groupId>javax.servlet</groupId>
+	        <artifactId>javax.servlet-api</artifactId>
+	        <version>4.0.1</version>
+	        <scope>provided</scope>
+	    </dependency>
+	
+	    <!-- JSP API -->
+	    <dependency>
+	        <groupId>javax.servlet.jsp</groupId>
+	        <artifactId>javax.servlet.jsp-api</artifactId>
+	        <version>2.3.3</version>
+	        <scope>provided</scope>
+	    </dependency>
+	
+	    <!-- JSTL API -->
+	    <dependency>
+	        <groupId>javax.servlet</groupId>
+	        <artifactId>jstl</artifactId>
+	        <version>1.2</version>
+	    </dependency> 
+	
+
+		<dependency>
+		    <groupId>org.postgresql</groupId>
+		    <artifactId>postgresql</artifactId>	
+		    <version>42.7.3</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.glassfish.web</groupId>
+		    <artifactId>javax.servlet.jsp.jstl</artifactId>
+		    <version>1.2.5</version>
+		</dependency>
+
+        <!-- Additional dependencies (e.g., for logging, database) can be added here -->
+    </dependencies>
+
+    <build>
+        <finalName>DairyBen</finalName>
+        <plugins>
+            <!-- Maven Compiler Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <release>17</release>
+                </configuration>
+            </plugin>
+
+            <!-- Maven WAR Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.3</version>
+                <configuration>
+                    <!-- You can configure WAR plugin settings here if needed -->
+                </configuration>
+            </plugin>
+            
+            <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+	            <executions>
+	                <execution>
+	                    <phase>package</phase>
+	                    <goals><goal>copy</goal></goals>
+	                    <configuration>
+	                        <artifactItems>
+	                            <artifactItem>
+	                                <groupId>com.heroku</groupId>
+	                                <artifactId>webapp-runner</artifactId>
+	                                <version>9.0.89.0</version>
+	                                <destFileName>webapp-runner.jar</destFileName>
+	                                <outputDirectory>${project.build.directory}</outputDirectory>
+	                            </artifactItem>
+	                        </artifactItems>
+	                    </configuration>
+	                </execution>
+	            </executions>
+	        </plugin>
+        </plugins>
+    </build>
+    
+</project>
