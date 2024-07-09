@@ -23,8 +23,8 @@ public class EmployeeDAO {
         PreparedStatement ps = null;
 
         try {
-            con = ConnectionManager.getConnection();
-            String query = "INSERT INTO EMPLOYEES (emp_name, emp_email, emp_password, emp_address, emp_phoneNum, emp_role) VALUES (?, ?, ?, ?, ?, ?)";
+            con = connectionManager.getConnection();
+            String query = "INSERT INTO employees (emp_name, emp_email, emp_password, emp_address, emp_phonenum, emp_role) VALUES (?, ?, ?, ?, ?, ?)";
             ps = con.prepareStatement(query);
             ps.setString(1, name);
             ps.setString(2, email);
@@ -53,8 +53,8 @@ public class EmployeeDAO {
         ResultSet rs = null;
 
         try {
-            con = ConnectionManager.getConnection();
-            String query = "SELECT * FROM EMPLOYEES WHERE emp_email = ? AND emp_password = ?";
+            con = connectionManager.getConnection();
+            String query = "SELECT * FROM employees WHERE emp_email = ? AND emp_password = ?";
             ps = con.prepareStatement(query);
             ps.setString(1, email);
             ps.setString(2, password);
@@ -72,9 +72,6 @@ public class EmployeeDAO {
         return isAuthenticated;
     }
 
-    
-    
-    
     public Employee getEmployeeByEmail(String email) {
         Employee employee = null;
         Connection con = null;
@@ -82,8 +79,8 @@ public class EmployeeDAO {
         ResultSet rs = null;
 
         try {
-            con = ConnectionManager.getConnection();
-            String query = "SELECT * FROM EMPLOYEES WHERE emp_email = ?";
+            con = connectionManager.getConnection();
+            String query = "SELECT * FROM employees WHERE emp_email = ?";
             ps = con.prepareStatement(query);
             ps.setString(1, email);
 
@@ -94,7 +91,7 @@ public class EmployeeDAO {
                 String address = rs.getString("emp_address");
                 String role = rs.getString("emp_role");
                 String password = rs.getString("emp_password");
-                String phoneNum = rs.getString("emp_phoneNum");
+                String phoneNum = rs.getString("emp_phonenum");
                 int adminId = rs.getInt("admin_id");
 
                 employee = new Employee(id, name, address, role, email, password, phoneNum, adminId);
@@ -115,8 +112,8 @@ public class EmployeeDAO {
         ResultSet rs = null;
 
         try {
-            con = ConnectionManager.getConnection();
-            String query = "SELECT * FROM EMPLOYEES";
+            con = connectionManager.getConnection();
+            String query = "SELECT * FROM employees";
             ps = con.prepareStatement(query);
             rs = ps.executeQuery();
 
@@ -125,7 +122,7 @@ public class EmployeeDAO {
                 String name = rs.getString("emp_name");
                 String email = rs.getString("emp_email");
                 String address = rs.getString("emp_address");
-                String phone = rs.getString("emp_phoneNum");
+                String phone = rs.getString("emp_phonenum");
                 String role = rs.getString("emp_role");
 
                 employees.add(new Employee(id, name, address, role, email, "", phone, 0));
@@ -138,14 +135,15 @@ public class EmployeeDAO {
 
         return employees;
     }
+
     public boolean deleteEmployee(int empId) {
         boolean isDeleted = false;
         Connection con = null;
         PreparedStatement ps = null;
 
         try {
-            con = ConnectionManager.getConnection();
-            String query = "DELETE FROM EMPLOYEES WHERE emp_id = ?";
+            con = connectionManager.getConnection();
+            String query = "DELETE FROM employees WHERE emp_id = ?";
             ps = con.prepareStatement(query);
             ps.setInt(1, empId);
 
@@ -168,8 +166,8 @@ public class EmployeeDAO {
         PreparedStatement ps = null;
 
         try {
-            con = ConnectionManager.getConnection();
-            String query = "UPDATE EMPLOYEES SET emp_name = ?, emp_email = ?, emp_address = ?, emp_phoneNum = ?, emp_role = ? WHERE emp_id = ?";
+            con = connectionManager.getConnection();
+            String query = "UPDATE employees SET emp_name = ?, emp_email = ?, emp_address = ?, emp_phonenum = ?, emp_role = ? WHERE emp_id = ?";
             ps = con.prepareStatement(query);
             ps.setString(1, employee.getName());
             ps.setString(2, employee.getEmail());
@@ -191,10 +189,9 @@ public class EmployeeDAO {
         return isUpdated;
     }
 
-    
     public int getTotalEmployees() throws SQLException {
-        String query = "SELECT COUNT(*) FROM EMPLOYEES";
-        try (Connection con = ConnectionManager.getConnection();
+        String query = "SELECT COUNT(*) FROM employees";
+        try (Connection con = connectionManager.getConnection();
              PreparedStatement ps = con.prepareStatement(query);
              ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
@@ -206,7 +203,7 @@ public class EmployeeDAO {
         }
         return 0;
     }
-    
+
     private void closeResources(Connection con, PreparedStatement ps, ResultSet rs) {
         try {
             if (rs != null) {
