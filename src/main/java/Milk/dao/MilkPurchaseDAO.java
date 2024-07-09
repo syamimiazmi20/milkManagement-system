@@ -37,7 +37,7 @@ public class MilkPurchaseDAO {
     }
 
     public void addMilkPurchase(MilkPurchase purchase) throws SQLException {
-        String query = "INSERT INTO MILK_PURCHASE (production_id, cust_id, amount_liter, total_price, payment_id, shipping_id, purchase_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO MILK_PURCHASE (production_id, cust_id, amount_liter, total_price, payment_id, shipping_id) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, purchase.getProductionId());
             statement.setInt(2, purchase.getCustID());
@@ -46,7 +46,6 @@ public class MilkPurchaseDAO {
             int payid = getLatestPayment();
             statement.setInt(5, payid);
             statement.setInt(6, purchase.getShipping_id());
-            statement.setInt(7, purchase.getPurchaseID());
             System.out.println("PaymentID: " + payid);
 
             statement.executeUpdate();
