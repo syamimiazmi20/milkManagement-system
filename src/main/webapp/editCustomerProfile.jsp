@@ -9,22 +9,6 @@ if (session != null) {
     String address = (String) session.getAttribute("userAddress");
     String email = (String) session.getAttribute("userEmail");
     String phoneNum = (String) session.getAttribute("userPhone");
-
-    Connection conn = null;
-    PreparedStatement pstmt = null;
-    ResultSet rs = null;
-
-    try {
-        // Get connection from your connection manager
-        conn = ConnectionManager.getConnection();
-
-        // Prepare SQL query to fetch milk purchase history
-        String sql = "SELECT purchase_date, quantity, total_price FROM milk_purchases WHERE customer_email = ? ORDER BY purchase_date DESC LIMIT 10";
-        pstmt = conn.prepareStatement(sql);
-        pstmt.setString(1, email);
-
-        // Execute query
-        rs = pstmt.executeQuery();
 %>
 
 <!DOCTYPE html>
@@ -363,15 +347,6 @@ if (session != null) {
 </html>
 
 <%
-    } catch (Exception e) {
-        e.printStackTrace();
-        // You might want to add some error handling here
-    } finally {
-        // Close database resources
-        if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
-        if (pstmt != null) try { pstmt.close(); } catch (SQLException e) { e.printStackTrace(); }
-        if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
-    }
 } else {
     response.sendRedirect("customerLogin.jsp?error=notLoggedIn");
 }
